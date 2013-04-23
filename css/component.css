@@ -183,6 +183,7 @@ div.bl-panel-items > div > div {
 	padding: 0 20px;
 	overflow: hidden;
 	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 /* Custom content */
