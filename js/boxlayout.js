@@ -51,11 +51,10 @@ var Boxlayout = (function() {
 			// expand the clicked section and scale down the others
 			$section.on( 'click', function() {
 
-				if( $section.data( 'open' ) ) {
-					return false;
+				if( !$section.data( 'open' ) ) {
+					$section.data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
+					$el.addClass( 'bl-expand-item' );	
 				}
-				$section.data( 'open', true ).addClass( 'bl-expand bl-expand-top' );
-				$el.addClass( 'bl-expand-item' );
 
 			} ).find( 'span.bl-icon-close' ).on( 'click', function() {
 				
