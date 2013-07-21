@@ -20,6 +20,7 @@ var Boxlayout = (function() {
 		$workPanelsContainer = $( '#bl-panel-work-items' ),
 		$workPanels = $workPanelsContainer.children( 'div' ),
 		totalWorkPanels = $workPanels.length,
+		currentWorkPanel = undefined,
 		// navigating the work panels
 		$nextWorkItem = $workPanelsContainer.find( 'nav > span.bl-next-work' ),
 		$prevWorkItem = $workPanelsContainer.find( 'nav > span.bl-prev-work' ),
