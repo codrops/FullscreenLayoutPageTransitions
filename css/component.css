@@ -298,7 +298,7 @@ div.bl-panel-items > div {
 div.bl-panel-items nav {
 	position: absolute;
 	z-index: 9999;
-	width: 216px;
+	width: 250px;
 	left: 50%;
 	top: 0px;
 	margin-left: -108px;
@@ -313,8 +313,8 @@ div.bl-panel-items.bl-panel-items-show nav span {
 	margin: 5px;
 }
 
-div.bl-panel-items nav span.bl-next-work {
-	font-weight: 700;
+div.bl-panel-items nav span.bl-next-work, div.bl-panel-items nav span.bl-prev-work{
+	font-weight: 800;
 	letter-spacing: 2px;
 	display: block;
 	text-transform: uppercase;

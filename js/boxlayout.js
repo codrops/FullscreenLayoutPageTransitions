@@ -20,8 +20,11 @@ var Boxlayout = (function() {
 		$workPanelsContainer = $( '#bl-panel-work-items' ),
 		$workPanels = $workPanelsContainer.children( 'div' ),
 		totalWorkPanels = $workPanels.length,
+		currentWorkPanel = undefined,
 		// navigating the work panels
 		$nextWorkItem = $workPanelsContainer.find( 'nav > span.bl-next-work' ),
+		$prevWorkItem = $workPanelsContainer.find( 'nav > span.bl-prev-work' ),
+
 		// if currently navigating the work items
 		isAnimating = false,
 		// close work panel trigger
@@ -37,6 +40,42 @@ var Boxlayout = (function() {
 		transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
 		// support css transitions
 		supportTransitions = Modernizr.csstransitions;
+
+	var iteratePanels = function( event, incrementor ) {
+		
+		if( isAnimating ) {
+			return false;
+		}
+		isAnimating = true;
+
+		var $currentPanel = $workPanels.eq( currentWorkPanel );
+		currentWorkPanel = incrementor(currentWorkPanel, totalWorkPanels);
+		var $nextPanel = $workPanels.eq( currentWorkPanel );
+
+		$currentPanel.removeClass( 'bl-show-work' ).addClass( 'bl-hide-current-work' ).on( transEndEventName, function( event ) {
+			if( !$( event.target ).is( 'div' ) ) return false;
+			$( this ).off( transEndEventName ).removeClass( 'bl-hide-current-work' );
+			isAnimating = false;
+		} );
+
+		if( !supportTransitions ) {
+			$currentPanel.removeClass( 'bl-hide-current-work' );
+			isAnimating = false;
+		}
+		
+		$nextPanel.addClass( 'bl-show-work' );
+
+		return false;
+
+	}
+
+	var nextRoundRobinIncrementor = function(current, total) {
+		return currentWorkPanel < totalWorkPanels - 1 ? currentWorkPanel + 1 : 0;
+	}
+
+	var prevRoundRobinIncrementor = function(current, total) {
+		return currentWorkPanel > 0 ? currentWorkPanel - 1 : totalWorkPanels - 1;
+	}
 
 	function init() {
 		initEvents();
@@ -95,31 +134,11 @@ var Boxlayout = (function() {
 
 		// navigating the work items: current work panel scales down and the next work panel slides up
 		$nextWorkItem.on( 'click', function( event ) {
-			
-			if( isAnimating ) {
-				return false;
-			}
-			isAnimating = true;
+			return iteratePanels(event, nextRoundRobinIncrementor)
+		} );
 
-			var $currentPanel = $workPanels.eq( currentWorkPanel );
-			currentWorkPanel = currentWorkPanel < totalWorkPanels - 1 ? currentWorkPanel + 1 : 0;
-			var $nextPanel = $workPanels.eq( currentWorkPanel );
-
-			$currentPanel.removeClass( 'bl-show-work' ).addClass( 'bl-hide-current-work' ).on( transEndEventName, function( event ) {
-				if( !$( event.target ).is( 'div' ) ) return false;
-				$( this ).off( transEndEventName ).removeClass( 'bl-hide-current-work' );
-				isAnimating = false;
-			} );
-
-			if( !supportTransitions ) {
-				$currentPanel.removeClass( 'bl-hide-current-work' );
-				isAnimating = false;
-			}
-			
-			$nextPanel.addClass( 'bl-show-work' );
-
-			return false;
-
+		$prevWorkItem.on( 'click', function( event ) {
+			return iteratePanels(event, prevRoundRobinIncrementor)
 		} );
 
 		// clicking the work panels close button: the current work panel slides down and the section scales up again
