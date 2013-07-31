@@ -1,4 +1,3 @@
-
 FullscreenLayoutPageTransitions
 =========
 
@@ -9,3 +8,5 @@ This responsive layout is based on an initial grid of four boxes. Once a box is 
 [demo](http://tympanus.net/Development/FullscreenLayoutPageTransitions)
 
 Licensed under the MIT License
+
+Edit: I have edited this project to enable the escape button funcionality. Pressing escape now returns you to the start page/navigation.
